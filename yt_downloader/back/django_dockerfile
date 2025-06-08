@@ -16,9 +16,7 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 FROM python:3.13-slim
 
-RUN useradd -m -r appuser && \
-   mkdir -p /app/media && \
-   chown -R appuser /app
+RUN mkdir -p /app/media
 
 WORKDIR /app
 
@@ -31,8 +29,6 @@ ENV PYTHONDONTWRITEBYTECODE=1
 ENV PYTHONUNBUFFERED=1 
 
 RUN apt update && apt install -y ffmpeg
-
-USER appuser
 
 CMD ["sh", "-c", "python manage.py makemigrations --noinput && python manage.py migrate && gunicorn --bind 0.0.0.0:8000 yt_downloader.wsgi:application"]
 
