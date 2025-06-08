@@ -16,9 +16,22 @@ spec:
       containers:
         - name: postgres
           image: postgres:latest
-          envFrom:
-            - secretRef:
-                name: env-secret
+          env:
+           - name: POSTGRES_DB
+             valueFrom:
+               secretRef:
+                 name: env-secret
+                 key: DATABASE_NAME
+           - name: POSTGRES_USER
+             valueFrom:
+               secretRef:
+                 name: env-secret
+                 key: DATABASE_USERNAME
+           - name: POSTGRES_PASSWORD
+             valueFrom:
+               secretRef:
+                 name: env-secret
+                 key: DATABASE_PASSWORD
           volumeMounts:
             - mountPath: "/var/lib/postgresql/data"
               name: postgres-storage
