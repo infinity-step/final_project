@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: django
+  name: postgres
   namespace: argocd
 spec:
   destination:
@@ -9,7 +9,7 @@ spec:
     server: https://kubernetes.default.svc
   project: default
   source:
-    path: ./deploy/argo-app-manifest
+    path: ./argo-app-manifest
     repoURL: https://github.com/infinity-step/final_project
     targetRevision: master
   syncPolicy:
