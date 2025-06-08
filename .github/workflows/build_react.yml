@@ -33,7 +33,7 @@ jobs:
           webhook: ${{ secrets.SLACK_WEBHOOK_URL }}
           webhook-type: incoming-webhook
           payload: |
-            text: "*GitHub Action build react result*: ${{ job.status }}\n${{ github.repository || github.event.head_commit.url }}"
+            text: "*GitHub Action build react_app result*: ${{ job.status }}\n${{ github.repository || github.event.head_commit.url }}"
             blocks:
               - type: "section"
                 text:
