@@ -38,5 +38,5 @@ jobs:
               - type: "section"
                 text:
                   type: "mrkdwn"
-                  text: "GitHub Action build react_app result: ${{ job.status }}\n${{ github.repository || github.event.head_commit.url }}/react_app"
+                  text: "GitHub Action build react_app result: ${{ job.status }}\n${{ github.repository || github.event.head_commit.url }}"
         
