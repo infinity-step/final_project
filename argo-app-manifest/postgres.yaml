@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: postgres
-  namespace: yt_downloader
+  namespace: yt-downloader
 spec:
   replicas: 1
   selector:
