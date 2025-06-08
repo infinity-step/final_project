@@ -38,5 +38,5 @@ jobs:
               - type: "section"
                 text:
                   type: "mrkdwn"
-                  text: "GitHub Action build django result: ${{ job.status }}\n${{ github.repository || github.event.head_commit.url }}"
+                  text: "GitHub Action build django_app result: ${{ job.status }}\n${{ github.repository || github.event.head_commit.url }}/django_app"
         
