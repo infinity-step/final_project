@@ -25,7 +25,7 @@ jobs:
           context: ./yt_downloader/back
           file: ./yt_downloader/back/django_dockerfile
           push: true
-          tags: ghcr.io/${{ github.repository_owner }}/${{ github.event.repository.name }}:latest
+          tags: ghcr.io/${{ github.repository_owner }}/${{ github.event.repository.name }}/django:latest
           
       - name: Post a message in a channel
         uses: slackapi/slack-github-action@v2.0.0
@@ -38,5 +38,5 @@ jobs:
               - type: "section"
                 text:
                   type: "mrkdwn"
-                  text: "GitHub Action build result: ${{ job.status }}\n${{ github.repository || github.event.head_commit.url }}"
+                  text: "GitHub Action build django result: ${{ job.status }}\n${{ github.repository || github.event.head_commit.url }}"
         

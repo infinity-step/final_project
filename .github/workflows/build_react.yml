@@ -25,7 +25,7 @@ jobs:
           context: ./yt_downloader/front
           file: ./yt_downloader/front/react_dockerfile
           push: true
-          tags: ghcr.io/${{ github.repository_owner }}/${{ github.event.repository.name }}:latest
+          tags: ghcr.io/${{ github.repository_owner }}/${{ github.event.repository.name }}/react:latest
           
       - name: Post a message in a channel
         uses: slackapi/slack-github-action@v2.0.0
@@ -33,7 +33,7 @@ jobs:
           webhook: ${{ secrets.SLACK_WEBHOOK_URL }}
           webhook-type: incoming-webhook
           payload: |
-            text: "*GitHub Action build result*: ${{ job.status }}\n${{ github.repository || github.event.head_commit.url }}"
+            text: "*GitHub Action build react result*: ${{ job.status }}\n${{ github.repository || github.event.head_commit.url }}"
             blocks:
               - type: "section"
                 text:
