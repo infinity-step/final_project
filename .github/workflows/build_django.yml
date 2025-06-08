@@ -22,8 +22,8 @@ jobs:
       - name: Build and push
         uses: docker/build-push-action@v4
         with:
-          context: yt_downloader/back
-          file: ./django_dockerfile
+          context: ./yt_downloader/back
+          file: ./yt_downloader/back/django_dockerfile
           push: true
           tags: ghcr.io/${{ github.repository_owner }}/${{ github.event.repository.name }}:latest
           
