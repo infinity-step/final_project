@@ -19,17 +19,17 @@ spec:
           env:
            - name: POSTGRES_DB
              valueFrom:
-               secretRef:
+               secretKeyRef:
                  name: env-secret
                  key: DATABASE_NAME
            - name: POSTGRES_USER
              valueFrom:
-               secretRef:
+               secretKeyRef:
                  name: env-secret
                  key: DATABASE_USERNAME
            - name: POSTGRES_PASSWORD
              valueFrom:
-               secretRef:
+               secretKeyRef:
                  name: env-secret
                  key: DATABASE_PASSWORD
           volumeMounts:
