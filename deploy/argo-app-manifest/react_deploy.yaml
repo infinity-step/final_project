@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: react-app
+  namespace: yt_downloader
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: react-app
+  template:
+    metadata:
+      labels:
+        app: react-app
+    spec:
+      imagePullSecrets:
+        - name: github-secret
+      containers:
+        - name: react-app
+          image: ghcr.io/infinity-step/final_project/react:latest
+          ports:
+            - containerPort: 3000
