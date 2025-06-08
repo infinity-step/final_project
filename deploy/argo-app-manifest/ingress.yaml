@@ -8,7 +8,7 @@ metadata:
 spec:
   ingressClassName: nginx
   rules:
-    - host: yt_downloader.k8s-23.sa
+    - host: yt-downloader.k8s-23.sa
       http:
         paths:
           - path: /
