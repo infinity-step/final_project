@@ -17,7 +17,7 @@ spec:
         - name: github-secret
       containers:
         - name: django
-          image: ghcr.io/infinity-step/final_project/django:latest
+          image: ghcr.io/infinity-step/final_project/django:1.0.0
           envFrom:
             - secretRef:
                 name: env-secret
