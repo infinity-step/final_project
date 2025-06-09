@@ -3,6 +3,11 @@ kind: Ingress
 metadata:
   name: app-ingress
   namespace: yt-downloader
+  annotations:
+    nginx.ingress.kubernetes.io/enable-cors: "true"
+    nginx.ingress.kubernetes.io/cors-allow-origin: "*"
+    nginx.ingress.kubernetes.io/cors-allow-methods: "GET, POST, OPTIONS"
+    nginx.ingress.kubernetes.io/cors-allow-headers: "Authorization, Content-Type"
 spec:
   ingressClassName: nginx
   rules:
