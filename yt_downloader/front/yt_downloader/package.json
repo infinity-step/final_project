@@ -19,8 +19,6 @@
     "eject": "react-scripts eject"
   },
   
-  "proxy": "http://django-service",
-  
   "eslintConfig": {
     "extends": [
       "react-app",

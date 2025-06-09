@@ -39,7 +39,7 @@ function App() {
 
   const handleSingleSubmit = async () => {
     try {
-      const response = await fetch("http://django-service/api/single/", {
+      const response = await fetch("http://argocd.k8s-23.sa/api/single/", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -57,7 +57,7 @@ function App() {
   
   const handleRightButtonClick = async () => {
     try {
-      const response = await fetch("http://django-service/api/history/");
+      const response = await fetch("http://argocd.k8s-23.sa/api/history/");
       const data = await response.json();
       setScrollContent(data.history); // Обновляем список сообщений
     } catch (error) {
