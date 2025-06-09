@@ -7,6 +7,7 @@ url = ''
 
 @api_view(["POST"])
 def process_single(request):
+    global url
     text = request.data.get("text", "Нет данных")
     url = text
     add_entry(text)
@@ -16,6 +17,7 @@ def process_single(request):
     
 @api_view(["POST"])
 def process_double(request):
+    global url
     first = request.data.get("first", "Нет данных")
     second = request.data.get("second", "Нет данных")
     download_and_merge(url, first, second)

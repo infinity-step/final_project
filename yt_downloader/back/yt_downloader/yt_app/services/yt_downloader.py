@@ -3,7 +3,9 @@ import yt_dlp
 def list_formats(url):
     ydl_opts = {'listformats': True}
     with yt_dlp.YoutubeDL(ydl_opts) as ydl:
-        ydl.extract_info(url, download=False)
+        info = ydl.extract_info(url, download=False)
+        formats_info = ">>>|<<<".join([f"Качество: {fmt['format_id']}, Разрешение: {fmt.get('resolution', 'N/A')}" for fmt in info['formats']])
+    return formats_info
 
 def download_and_merge(url, video_format, audio_format):
     ydl_opts = {
