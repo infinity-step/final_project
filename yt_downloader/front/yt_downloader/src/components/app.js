@@ -12,7 +12,7 @@ const appStyle = {
   alignItems: "center",
   paddingRight: "1000px",
   justifyContent: "flex-start",
-  color: "white", // Цвет текста для контраста
+  color: "white",
 };
 
 const rightSectionStyle = {
@@ -33,6 +33,10 @@ const scrollBoxStyle = {
 function App() {
   const [singleInput, setSingleInput] = useState("");
   const [singleOutput, setSingleOutput] = useState(""); 
+   
+  const [firstInput, setFirstInput] = useState("");
+  const [secondInput, setSecondInput] = useState("");
+  const [doubleOutput, setDoubleOutput] = useState("");
   
   const [scrollContent, setScrollContent] = useState([]);
   
@@ -46,6 +50,7 @@ function App() {
         },
         body: JSON.stringify({ text: singleInput }),
       });
+      
       setSingleInput("");
 
       const data = await response.json();
@@ -54,12 +59,31 @@ function App() {
       setSingleOutput("Ошибка при взаимодействии с сервером");
     }
   };
+
+  const handleDoubleSubmit = async () => {
+    try {
+      const response = await fetch("http://yt-downloader.k8s-23.sa/api/double/", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ first: firstInput, second: secondInput }),
+      });
+      setFirstInput("");
+      setSecondInput("");
+
+      const data = await response.json();
+      setDoubleOutput(data.response);
+    } catch (error) {
+      setDoubleOutput("Ошибка при взаимодействии с сервером");
+    }
+  };
   
   const handleRightButtonClick = async () => {
     try {
       const response = await fetch("http://yt-downloader.k8s-23.sa/api/history/");
       const data = await response.json();
-      setScrollContent(data.history); // Обновляем список сообщений
+      setScrollContent(data.history);
     } catch (error) {
       setScrollContent(["Ошибка при запросе к серверу"]);
     }
@@ -79,8 +103,32 @@ function App() {
           onChange={(e) => setSingleInput(e.target.value)} 
         />
       </div>
-      <button onClick={handleSingleSubmit}>Скачать видео</button>
+      <button onClick={handleSingleSubmit}>Получить информацию о видео</button>
       <div style={{ marginTop: "20px", fontWeight: "bold" }}>{singleOutput}</div>
+
+      {/* Два поля в ряд */}
+      <div style={{ display: "flex", justifyContent: "center", gap: "10px", marginTop: "30px" }}>
+        <div>
+          <label htmlFor="firstInput">Качество видео:</label><br />
+          <input 
+            type="text" 
+            id="firstInput" 
+            value={firstInput} 
+            onChange={(e) => setFirstInput(e.target.value)} 
+          />
+        </div>
+        <div>
+          <label htmlFor="secondInput">Качество аудио:</label><br />
+          <input 
+            type="text" 
+            id="secondInput" 
+            value={secondInput} 
+            onChange={(e) => setSecondInput(e.target.value)} 
+          />
+        </div>
+      </div>
+      <button onClick={handleDoubleSubmit} style={{ marginTop: "20px" }}>Скачать</button>
+      <div style={{ marginTop: "20px", fontWeight: "bold" }}>{doubleOutput}</div>
       
       {/* Правая секция с кнопкой и API-интерактивным полем вывода со скроллом */}
       <div style={rightSectionStyle}>

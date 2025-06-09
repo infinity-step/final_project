@@ -16,9 +16,10 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from yt_app.views import process_single, get_history
+from yt_app.views import process_single, process_double, get_history
 
 urlpatterns = [
     path("api/single/", process_single),
+    path("api/double/", process_double),
     path("api/history/", get_history),
 ]
