@@ -7,7 +7,8 @@ WORKDIR /app
 ENV PYTHONDONTWRITEBYTECODE=1
 ENV PYTHONUNBUFFERED=1
 
-RUN apt-get update && apt-get install python3-pip
+# hadolint ignore=DL3000
+RUN pip install --upgrade pip
 
 COPY ./yt_downloader/requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
@@ -28,9 +29,8 @@ COPY ./yt_downloader .
 ENV PYTHONDONTWRITEBYTECODE=1
 ENV PYTHONUNBUFFERED=1 
 
-RUN apt-get update && apt-get install -y ffmpeg
-
-RUN apt-get clean && rm -rf /var/lib/apt/lists/*
+# hadolint ignore=DL3000
+RUN apt-get update && apt-get install -y ffmpeg --no-install-recommends && rm -rf /var/lib/apt/lists/*
 
 CMD ["sh", "-c", "python manage.py makemigrations --noinput && python manage.py migrate && gunicorn --bind 0.0.0.0:8000 yt_downloader.wsgi:application"]
 
