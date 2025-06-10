@@ -1,0 +1,13 @@
+name: tests forr project
+on:
+  push:
+    branches:
+    - dev
+jobs:
+  start_script:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: start tests
+        run: python3 ./yt_downloader/back/yt_downloader/yt_app/tests.py
