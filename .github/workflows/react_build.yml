@@ -1,0 +1,47 @@
+name: react image
+
+on:
+  workflow_run:
+    workflows: ["Dockerfile Linting"]
+    types:
+      - completed
+    
+jobs:
+  start_script:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GH_R }}
+          
+      - name: Last tag
+        id: get_tag
+        run: echo "TAG=$(git describe --tags --abbrev=0)" >> $GITHUB_ENV 
+           
+      - name: Build and push
+        uses: docker/build-push-action@v4
+        with:
+          context: ./yt_downloader/front
+          file: ./yt_downloader/front/react_dockerfile
+          push: true
+          tags: react:$TAG
+          
+      - name: Post a message in a channel
+        uses: slackapi/slack-github-action@v2.0.0
+        with:
+          webhook: ${{ secrets.SLACK_WEBHOOK_URL }}
+          webhook-type: incoming-webhook
+          payload: |
+            text: "*GitHub Action build result*: ${{ job.status }}\n${{ github.repository || github.event.head_commit.url }}"
+            blocks:
+              - type: "section"
+                text:
+                  type: "mrkdwn"
+                  text: "GitHub Action build react_app:$TAG result: ${{ job.status }}\n${{ github.repository || github.event.head_commit.url }}"
+        
