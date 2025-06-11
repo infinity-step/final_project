@@ -6,4 +6,4 @@ typing_extensions==4.13.2
 psycopg2-binary==2.9.10
 django-cors-headers==4.7.0
 djangorestframework==3.16.0
-yt-dlp==2025.5.22
+yt_dlp==2025.5.22

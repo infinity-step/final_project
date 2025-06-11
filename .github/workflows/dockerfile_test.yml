@@ -25,26 +25,9 @@ jobs:
       - name: Send Slack notification
         if: always()
         run: |
-          curl -X POST -H 'Content-type: application/json' --data '{
-            "blocks": [
-              {
-                "type": "section",
-                 "text": {
-                  "type": "mrkdwn",
-                  "text": ":mag: *Результаты Hadolint: ${{ steps.hadolint.outcome }}*"
-                }
-              },
-              {
-                "type": "divider"
-              },
-              {
-                "type": "section",
-                "fields": [
-                  {
-                    "type": "mrkdwn",
-                    "text": "*Коммит:* ${{ github.sha }}"
-                  }
-                ]
-              },
-            ]
-          }' ${{ secrets.SLACK_WEBHOOK_URL }}
+          STATUS="${{ steps.hadolint.outcome }}"
+          MESSAGE="🔍 Проверка Dockerfiles завершена. Статус: $STATUS"
+          JSON_PAYLOAD="{\"text\": \"$MESSAGE\"}"
+          curl -X POST -H "Content-Type: application/json" \
+          -d "$JSON_PAYLOAD" \
+          ${{ secrets.SLACK_WEBHOOK_URL }}

@@ -1,4 +1,4 @@
-name: tests forr project
+name: tests for project
 on:
   push:
     branches:
@@ -12,5 +12,6 @@ jobs:
       - name: start tests
         run: |
           sudo apt-get install python3-pip
-          pip3 install yt_dlp
+          yt_v=$(grep "^yt_dlp==" requirements.txt | cut -d'=' -f2)
+          pip3 install yt_dlp==$yt_v
           python3 ./yt_downloader/back/yt_downloader/yt_app/tests.py
