@@ -8,26 +8,31 @@ on:
 jobs:
   lint:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        dockerfile: [dockerfiles/django_dockerfile, dockerfiles/react_dockerfile]
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
 
       - name: Run Hadolint
+        id: hadolint
         uses: hadolint/hadolint-action@v3.1.0
         with:
-          dockerfile: dockerfiles/django_dockerfile
-      
-      - name: Run Hadolint
-        uses: hadolint/hadolint-action@v3.1.0
-        with:
-          dockerfile: dockerfiles/react_dockerfile
-          
-      - name: Send Slack notification
+          dockerfile: ${{ matrix.dockerfile }}
+          format: json
+
+      - name: Prepare and Send Slack Notification
         if: always()
         run: |
-          STATUS="${{ steps.hadolint.outcome }}"
-          MESSAGE="🔍 Проверка Dockerfiles завершена. Статус: $STATUS"
-          JSON_PAYLOAD="{\"text\": \"$MESSAGE\"}"
+          HADOLINT_RESULTS=$(cat $GITHUB_WORKSPACE/hadolint.json)
+          STATUS="✅ Проверка прошла успешно"
+          if [[ "$HADOLINT_RESULTS" == *"error"* ]]; then
+            STATUS="❌ Обнаружены ошибки в ${{ matrix.dockerfile }}"
+          fi
+          
+          JSON_PAYLOAD="{\"text\": \"🔍 Проверка ${{ matrix.dockerfile }} завершена. Статус: $STATUS\"}"
+
           curl -X POST -H "Content-Type: application/json" \
           -d "$JSON_PAYLOAD" \
           ${{ secrets.SLACK_WEBHOOK_URL }}
