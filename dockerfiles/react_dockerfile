@@ -9,6 +9,7 @@ COPY ./yt_downloader .
 
 RUN npm run build
 
+# hadolint ignore=DL3000,DL3016,DL3059
 RUN npm install -g serve
 
 CMD ["serve", "-s", "build", "-l", "3000"]
