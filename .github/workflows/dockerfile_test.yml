@@ -25,9 +25,9 @@ jobs:
       - name: Prepare and Send Slack Notification
         if: always()
         run: |
-          HADOLINT_RESULTS=$(cat $GITHUB_WORKSPACE/hadolint.json)
-          STATUS="✅ Проверка прошла успешно"
-          if [[ "$HADOLINT_RESULTS" == *"error"* ]]; then
+          if [ ${{ steps.hadolint.outcome }} == 'success' ]; then
+            STATUS="✅ Проверка прошла успешно"
+          else
             STATUS="❌ Обнаружены ошибки в ${{ matrix.dockerfile }}"
           fi
           

@@ -13,5 +13,6 @@ jobs:
         run: |
           sudo apt-get install python3-pip
           yt_v=$(grep "^yt_dlp==" ./yt_downloader/back/yt_downloader/requirements.txt | cut -d'=' -f2)
+          echo $yt_v
           pip3 install yt_dlp==$yt_v
           python3 ./yt_downloader/back/yt_downloader/yt_app/tests.py
