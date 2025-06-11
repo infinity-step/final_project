@@ -26,8 +26,8 @@ jobs:
       - name: Build and push
         uses: docker/build-push-action@v4
         with:
-          context: ./yt_downloader/back
-          file: ./yt_downloader/back/django_dockerfile
+          context: ./dockerfiles
+          file: ./dockerfiles/django_dockerfile
           push: true
           tags: django:${{ env.TAG }}
           

@@ -26,8 +26,8 @@ jobs:
       - name: Build and push
         uses: docker/build-push-action@v4
         with:
-          context: ./yt_downloader/front
-          file: ./yt_downloader/front/react_dockerfile
+          context: ./dockerfiles
+          file: ./dockerfiles/react_dockerfile
           push: true
           tags: react:${{ env.TAG }}
           
