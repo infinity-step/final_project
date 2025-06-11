@@ -2,10 +2,10 @@ FROM node:18-alpine
 
 WORKDIR /app
 
-COPY ./yt_downloader/package.json ./yt_downloader/package-lock.json ./
+COPY ../yt_downloader/front/yt_downloader/package.json ../yt_downloader/front/yt_downloader/package-lock.json ./
 RUN npm install
 
-COPY ./yt_downloader .
+COPY ../yt_downloader/front/yt_downloader .
 
 RUN npm run build
 

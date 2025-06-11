@@ -10,7 +10,7 @@ ENV PYTHONUNBUFFERED=1
 # hadolint ignore=DL3000,DL3013,DL3042
 RUN pip install --upgrade pip
 
-COPY ./yt_downloader/requirements.txt .
+COPY ../yt_downloader/back/requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
 
@@ -24,7 +24,7 @@ WORKDIR /app
 COPY --from=base /usr/local/lib/python3.13/site-packages/ /usr/local/lib/python3.13/site-packages/
 COPY --from=base /usr/local/bin/ /usr/local/bin/
 
-COPY ./yt_downloader .
+COPY ../yt_downloader/back/yt_downloader .
 
 ENV PYTHONDONTWRITEBYTECODE=1
 ENV PYTHONUNBUFFERED=1 
