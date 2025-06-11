@@ -24,8 +24,27 @@ jobs:
           
       - name: Send Slack notification
         if: always()
-        uses: slackapi/slack-github-action@v1.24.0
-        with:
-          slack-message: "🔍 Результаты Hadolint: ${{ steps.hadolint.outcome }}"
-        env:
-          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+        run: |
+          curl -X POST -H 'Content-type: application/json' --data '{
+            "blocks": [
+              {
+                "type": "section",
+                 "text": {
+                  "type": "mrkdwn",
+                  "text": ":mag: *Результаты Hadolint: ${{ steps.hadolint.outcome }}*"
+                }
+              },
+              {
+                "type": "divider"
+              },
+              {
+                "type": "section",
+                "fields": [
+                  {
+                    "type": "mrkdwn",
+                    "text": "*Коммит:* ${{ github.sha }}"
+                  }
+                ]
+              },
+            ]
+          }' ${{ secrets.SLACK_WEBHOOK_URL }}

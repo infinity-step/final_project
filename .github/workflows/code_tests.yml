@@ -11,6 +11,6 @@ jobs:
 
       - name: start tests
         run: |
-          apt-get install python3-pip
+          sudo apt-get install python3-pip
           pip3 install yt_dlp
           python3 ./yt_downloader/back/yt_downloader/yt_app/tests.py
