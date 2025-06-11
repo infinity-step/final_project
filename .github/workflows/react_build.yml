@@ -1,4 +1,4 @@
-name: react image
+name: build dev react image
 
 on:
   push:
@@ -29,7 +29,7 @@ jobs:
           context: ./yt_downloader/front
           file: ./yt_downloader/front/react_dockerfile
           push: true
-          tags: react:$TAG
+          tags: react:${{ env.TAG }}
           
       - name: Post a message in a channel
         uses: slackapi/slack-github-action@v2.0.0
