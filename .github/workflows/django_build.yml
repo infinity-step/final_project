@@ -3,6 +3,8 @@ name: django image
 on:
   workflow_run:
     workflows: ["Dockerfile Linting"]
+    branches:
+      - dev
     types:
       - completed
     
