@@ -2,8 +2,8 @@ name: Dockerfile Linting
 
 on:
   push:
-    tags:
-      - 'v*'
+    branches:
+    - dev
 
 jobs:
   lint:

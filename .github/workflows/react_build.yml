@@ -1,12 +1,9 @@
 name: react image
 
 on:
-  workflow_run:
-    workflows: ["Dockerfile Linting"]
-    branches:
-      - dev
-    types:
-      - completed
+  push:
+    tags:
+      - 'v*'
     
 jobs:
   start_script:
