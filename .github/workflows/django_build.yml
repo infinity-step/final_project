@@ -29,7 +29,7 @@ jobs:
           context: .
           file: ./dockerfiles/django_dockerfile
           push: true
-          tags: django:${{ env.TAG }}
+          tags: ghcr.io/${{ github.repository_owner }}/${{ github.event.repository.name }}/django:${{ env.TAG }}
           
       - name: Post a message in a channel
         uses: slackapi/slack-github-action@v2.0.0
