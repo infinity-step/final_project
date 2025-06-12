@@ -42,5 +42,5 @@ jobs:
               - type: "section"
                 text:
                   type: "mrkdwn"
-                  text: "GitHub Action build django_app:$TAG result: ${{ job.status }}\n${{ github.repository || github.event.head_commit.url }}"
+                  text: "GitHub Action build django_app:${{ env.TAG }} result: ${{ job.status }}\n${{ github.repository || github.event.head_commit.url }}"
         
