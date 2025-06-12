@@ -1,12 +1,9 @@
 name: package helm 
 
 on:
-  workflow_dispatch:
-    inputs:
-      branch:
-        description: "Выберите ветку"
-        required: true
-        default: "dev"
+  push:
+    branches:
+    - dev
     
 jobs:
   start_script:
