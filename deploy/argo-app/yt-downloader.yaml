@@ -5,11 +5,11 @@ metadata:
   namespace: argocd
 spec:
   destination:
-    namespace: default
+    namespace: development
     server: https://kubernetes.default.svc
   project: default
   source:
-    path: ./deploy/argo-app-manifest
+    chart: yt_downloader
     repoURL: https://github.com/infinity-step/final_project
     targetRevision: master
   syncPolicy:

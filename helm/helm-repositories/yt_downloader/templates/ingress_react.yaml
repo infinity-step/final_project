@@ -2,7 +2,7 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: {{ include "django.fullname" . }}
+  name: {{ .Values.appNames.name2 }}
   namespace: {{ .Values.namespace }}
   {{- with .Values.ingress.annotations }}
   annotations:
@@ -13,8 +13,7 @@ spec:
   ingressClassName: {{ . }}
   {{- end }}
   rules:
-    {{- range .Values.ingress.hosts }}
-    - host: {{ .host | quote }}
+    - host: {{ .Values.hosts.host1 }}
       http:
         paths:
           {{- range .paths }}
@@ -24,9 +23,8 @@ spec:
             {{- end }}
             backend:
               service:
-                name: {{ $.Values.service.name }}
+                name: {{ $.Values.services.service2.name }}
                 port:
-                  number: {{ $.Values.service.ports.number }}
+                  number: {{ $.Values.services.service2.ports.number }}
           {{- end }}
-    {{- end }}
 {{- end }}

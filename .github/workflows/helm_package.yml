@@ -2,6 +2,11 @@ name: package helm
 
 on:
   workflow_dispatch:
+    inputs:
+      branch:
+        description: "Выберите ветку"
+        required: true
+        default: "dev"
     
 jobs:
   start_script:
@@ -23,21 +28,19 @@ jobs:
 
       - name: Helm Package React
         run: |
-          sed -i '/repository:/s/ghcr.io\/infinity-step\/final_project\/react:latest_tag/ghcr.io\/infinity-step\/final_project\/react:${{ env.TAG }}/' ./helm/helm-repositories/react/values.yaml
-          sed -i '/appVersion:/s/Version/${{ env.TAG }}/' ./helm/helm-repositories/react/Chart.yaml
-          helm package react
-          mv ./helm/helm-repositories/react-* ./helm/helm-releases/
+          sed -i '/repository2:/s/ghcr.io\/infinity-step\/final_project\/react:latest_tag/ghcr.io\/infinity-step\/final_project\/react:${{ env.TAG }}/' ./helm/helm-repositories/yt_downloader/values.yaml
+          sed -i '/repository1:/s/ghcr.io\/infinity-step\/final_project\/django:latest_tag/ghcr.io\/infinity-step\/final_project\/django:${{ env.TAG }}/' ./helm/helm-repositories/yt_downloader/values.yaml
+          sed -i '/appVersion:/s/Version/${{ env.TAG }}/' ./helm/helm-repositories/yt_downloader/Chart.yaml
+          helm package yt_downloader
+          mv ./helm/helm-repositories/yt_downloader-* ./helm/helm-releases/
           
-      - name: Helm Package Django
-        run: |
-          sed -i '/repository:/s/ghcr.io\/infinity-step\/final_project\/django:latest_tag/ghcr.io\/infinity-step\/final_project\/django:${{ env.TAG }}/' ./helm/helm-repositories/django/values.yaml
-          sed -i '/appVersion:/s/Version/${{ env.TAG }}/' ./helm/helm-repositories/django/Chart.yaml
-          helm package django
-          mv ./helm/helm-repositories/django-* ./helm/helm-releases/
-          
-      - name: Renew reposttory
+      - name: Uodate repository
         run: |
           helm repo index --url https://infinity-step.github.io/final_project/ --merge index.yaml .
+          
+      - name: Change version in deploy app
+        run: |
+          sed -i '/targetRevision:/s/master/${{ env.TAG }}/' ./deploy/argo-app/yt-downloader.yaml
           
       - name: Post a message in a channel
         uses: slackapi/slack-github-action@v2.0.0
@@ -50,5 +53,5 @@ jobs:
               - type: "section"
                 text:
                   type: "mrkdwn"
-                  text: "GitHub Action Helm package django:${{ env.TAG }} and react:${{ env.TAG }} result: ${{ job.status }}\n${{ github.repository || github.event.head_commit.url }}"
+                  text: "GitHub Action Helm package yt_downloader:${{ env.TAG }} result: ${{ job.status }}\n${{ github.repository || github.event.head_commit.url }}"
         

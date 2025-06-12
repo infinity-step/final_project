@@ -1,23 +1,23 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ include "django.fullname" . }}
+  name: {{ .Values.appNames.name1 }}
   namespace: {{ .Values.namespace }}
 spec:
   replicas: {{ .Values.replicaCount }}
   selector:
     matchLabels:
-      app: {{ include "django.fullname" . }}
+      app: {{ .Values.appNames.name1 }}
   template:
     metadata:
       labels:
-        app: {{ include "django.fullname" . }}
+        app: {{ .Values.appNames.name1 }}
     spec:
       imagePullSecrets:
         - name: github-secret
       containers:
-        - name: {{ include "django.fullname" . }}
-          image: "{{ .Values.image.repository }}"
+        - name: {{ .Values.appNames.name1 }}
+          image: "{{ .Values.image.repository1 }}"
           envFrom:
             - secretRef:
                 name: env-secret

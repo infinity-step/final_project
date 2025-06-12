@@ -2,8 +2,13 @@ replicaCount: 1
 
 namespace: development
 
+appNames:
+  name1: django
+  name2: react
+
 image:
-  repository: ghcr.io/infinity-step/final_project/django:latest_tag
+  repository1: ghcr.io/infinity-step/final_project/django:latest_tag
+  repository2: ghcr.io/infinity-step/final_project/react:latest_tag
   
 volumeMounts:
   - name: django-storage
@@ -13,6 +18,8 @@ volumes:
   - name: django-storage
     persistentVolumeClaim:
       claimName: django-pvc
+
+containerPort: 3000
       
 storageClassName: nfs-client
 
@@ -25,13 +32,23 @@ ingress:
     nginx.ingress.kubernetes.io/cors-allow-headers: "Authorization, Content-Type"
   className: "nginx"
   hosts:
-    - host: yt-downloader.k8s-23.sa
+    - host1: yt-downloader.k8s-23.sa
+      paths:
+        - path: /
+          pathType: Prefix
+    - host2: yt-downloader.k8s-23.sa
       paths:
         - path: /api
           pathType: Prefix
 
-service:
-  name: django-service
-  protocol: TCP
-  ports:
-    number: 8000
+services:
+  service1:
+    name: django-service
+    protocol: TCP
+    ports:
+      number: 8000
+  service2: 
+    name: react-service
+    protocol: TCP
+    ports:
+      number: 3000

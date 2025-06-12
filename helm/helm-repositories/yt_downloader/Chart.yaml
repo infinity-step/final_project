@@ -1,5 +1,5 @@
 apiVersion: v2
-name: react
+name: yt_downloader
 description: A Helm chart for Kubernetes
 
 type: application
