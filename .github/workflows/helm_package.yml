@@ -25,11 +25,12 @@ jobs:
 
       - name: Helm Package Yt-downloader
         run: |
+          echo ${{ env.TAG }}
           sed -i '/repository2:/s/ghcr.io\/infinity-step\/final_project\/react:latest_tag/ghcr.io\/infinity-step\/final_project\/react:${{ env.TAG }}/' ./helm/helm-repositories/yt_downloader/values.yaml
           sed -i '/repository1:/s/ghcr.io\/infinity-step\/final_project\/django:latest_tag/ghcr.io\/infinity-step\/final_project\/django:${{ env.TAG }}/' ./helm/helm-repositories/yt_downloader/values.yaml
           sed -i '/appVersion:/s/Version/${{ env.TAG }}/' ./helm/helm-repositories/yt_downloader/Chart.yaml
           helm package ./helm/helm-repositories/yt_downloader
-          mv 'yt_downloader-${{ env.TAG }}.tgz' ./helm/helm-releases/
+          mv "yt_downloader-${{ env.TAG }}.tgz" ./helm/helm-releases/
           
       - name: Update repository
         run: |
