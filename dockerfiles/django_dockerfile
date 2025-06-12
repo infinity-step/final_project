@@ -10,7 +10,7 @@ ENV PYTHONUNBUFFERED=1
 # hadolint ignore=DL3000,DL3013,DL3042
 RUN pip install --upgrade pip
 
-COPY ../yt_downloader/back/requirements.txt .
+COPY ../yt_downloader/back/yt_downloader/requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
 

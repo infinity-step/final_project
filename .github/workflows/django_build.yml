@@ -26,7 +26,7 @@ jobs:
       - name: Build and push
         uses: docker/build-push-action@v4
         with:
-          context: ./dockerfiles
+          context: .
           file: ./dockerfiles/django_dockerfile
           push: true
           tags: django:${{ env.TAG }}
