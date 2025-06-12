@@ -12,6 +12,8 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
         
+      - name: Fetch tags
+        run: git fetch --tags
           
       - name: Last tag
         id: get_tag
@@ -30,7 +32,7 @@ jobs:
           sed -i '/repository1:/s/ghcr.io\/infinity-step\/final_project\/django:latest_tag/ghcr.io\/infinity-step\/final_project\/django:${{ env.TAG }}/' ./helm/helm-repositories/yt_downloader/values.yaml
           sed -i '/appVersion:/s/Version/${{ env.TAG }}/' ./helm/helm-repositories/yt_downloader/Chart.yaml
           helm package ./helm/helm-repositories/yt_downloader
-          mv "yt_downloader-${{ env.TAG }}.tgz" ./helm/helm-releases/
+          mv "yt_downloader-*" ./helm/helm-releases/
           
       - name: Update repository
         run: |
@@ -51,5 +53,5 @@ jobs:
               - type: "section"
                 text:
                   type: "mrkdwn"
-                  text: "GitHub Action Helm package yt_downloader:${{ env.TAG }} result: ${{ job.status }}\n${{ github.repository || github.event.head_commit.url }}"
+                  text: "GitHub Action Helm package yt_downloader result: ${{ job.status }}\n${{ github.repository || github.event.head_commit.url }}"
         
