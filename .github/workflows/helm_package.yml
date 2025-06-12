@@ -1,0 +1,56 @@
+name: package helm 
+
+on:
+  push:
+    tags:
+      - 'v*'
+    
+jobs:
+  start_script:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        
+          
+      - name: Last tag
+        id: get_tag
+        run: echo "TAG=$(git describe --tags --abbrev=0)" >> $GITHUB_ENV 
+        
+      - name: Install Helm
+        run: |
+          curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3
+          sudo chmod 700 get_helm.sh
+          ./get_helm.sh
+
+      - name: Helm Package React
+        run: |
+          sed -i '/repository:/s/ghcr.io\/infinity-step\/final_project\/react:latest_tag/ghcr.io\/infinity-step\/final_project\/react:${{ env.TAG }}/' ./helm/helm-repositories/react/values.yaml
+          sed -i '/appVersion:/s/Version/${{ env.TAG }}/' ./helm/helm-repositories/react/Chart.yaml
+          helm package react
+          mv ./helm/helm-repositories/react-* ./helm/helm-releases/
+          
+      - name: Helm Package Django
+        run: |
+          sed -i '/repository:/s/ghcr.io\/infinity-step\/final_project\/django:latest_tag/ghcr.io\/infinity-step\/final_project\/django:${{ env.TAG }}/' ./helm/helm-repositories/django/values.yaml
+          sed -i '/appVersion:/s/Version/${{ env.TAG }}/' ./helm/helm-repositories/django/Chart.yaml
+          helm package django
+          mv ./helm/helm-repositories/django-* ./helm/helm-releases/
+          
+      - name: Renew reposttory
+        run: |
+          helm repo index --url https://infinity-step.github.io/final_project/ --merge index.yaml .
+          
+      - name: Post a message in a channel
+        uses: slackapi/slack-github-action@v2.0.0
+        with:
+          webhook: ${{ secrets.SLACK_WEBHOOK_URL }}
+          webhook-type: incoming-webhook
+          payload: |
+            text: "*GitHub Action build result*: ${{ job.status }}\n${{ github.repository || github.event.head_commit.url }}"
+            blocks:
+              - type: "section"
+                text:
+                  type: "mrkdwn"
+                  text: "GitHub Action Helm package django:${{ env.TAG }} and react:${{ env.TAG }} result: ${{ job.status }}\n${{ github.repository || github.event.head_commit.url }}"
+        

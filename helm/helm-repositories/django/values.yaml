@@ -1,0 +1,37 @@
+replicaCount: 1
+
+namespace: development
+
+image:
+  repository: ghcr.io/infinity-step/final_project/django:latest_tag
+  
+volumeMounts:
+  - name: django-storage
+    mountPath: "/app/media"
+    
+volumes:
+  - name: django-storage
+    persistentVolumeClaim:
+      claimName: django-pvc
+      
+storageClassName: nfs-client
+
+ingress:
+  enabled: true
+  annotations:
+    nginx.ingress.kubernetes.io/enable-cors: "true"
+    nginx.ingress.kubernetes.io/cors-allow-origin: "*"
+    nginx.ingress.kubernetes.io/cors-allow-methods: "GET, POST, OPTIONS"
+    nginx.ingress.kubernetes.io/cors-allow-headers: "Authorization, Content-Type"
+  className: "nginx"
+  hosts:
+    - host: yt-downloader.k8s-23.sa
+      paths:
+        - path: /api
+          pathType: Prefix
+
+service:
+  name: django-service
+  protocol: TCP
+  ports:
+    number: 8000
