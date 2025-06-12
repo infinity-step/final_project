@@ -1,9 +1,7 @@
 name: package helm 
 
 on:
-  push:
-    tags:
-      - 'v*'
+  workflow_dispatch:
     
 jobs:
   start_script:
