@@ -23,15 +23,15 @@ jobs:
           sudo chmod 700 get_helm.sh
           ./get_helm.sh
 
-      - name: Helm Package React
+      - name: Helm Package Yt-downloader
         run: |
           sed -i '/repository2:/s/ghcr.io\/infinity-step\/final_project\/react:latest_tag/ghcr.io\/infinity-step\/final_project\/react:${{ env.TAG }}/' ./helm/helm-repositories/yt_downloader/values.yaml
           sed -i '/repository1:/s/ghcr.io\/infinity-step\/final_project\/django:latest_tag/ghcr.io\/infinity-step\/final_project\/django:${{ env.TAG }}/' ./helm/helm-repositories/yt_downloader/values.yaml
           sed -i '/appVersion:/s/Version/${{ env.TAG }}/' ./helm/helm-repositories/yt_downloader/Chart.yaml
-          helm package yt_downloader
-          mv ./helm/helm-repositories/yt_downloader-* ./helm/helm-releases/
+          helm package ./helm/helm-repositories/yt_downloader
+          mv yt_downloader-${{ env.TAG }}.tgz ./helm/helm-releases/
           
-      - name: Uodate repository
+      - name: Update repository
         run: |
           helm repo index --url https://infinity-step.github.io/final_project/ --merge index.yaml .
           
