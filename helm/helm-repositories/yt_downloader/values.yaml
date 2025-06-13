@@ -7,8 +7,8 @@ appNames:
   name2: react
 
 image:
-repository1: ghcr.io/infinity-step/final_project/django:v1.0.1
-repository2: ghcr.io/infinity-step/final_project/react:v1.0.1
+  repository1: ghcr.io/infinity-step/final_project/django:v1.0.1
+  repository2: ghcr.io/infinity-step/final_project/react:v1.0.1
   
 volumeMounts:
   - name: django-storage
