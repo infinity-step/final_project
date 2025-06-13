@@ -2,8 +2,8 @@ name: package helm
 
 on:
   push:
-    branches:
-    - dev
+    tags:
+      - 'v*'
     
 jobs:
   start_script:
@@ -24,6 +24,7 @@ jobs:
           curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3
           sudo chmod 700 get_helm.sh
           ./get_helm.sh
+          rm get_helm.sh
 
       - name: Helm Package Yt-downloader
         run: |
