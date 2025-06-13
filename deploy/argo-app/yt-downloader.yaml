@@ -10,7 +10,7 @@ spec:
   project: default
   source:
     chart: yt_downloader
-    repoURL: https://github.com/infinity-step/final_project
-    targetRevision: v1.0.1
+    repoURL: https://github.com/infinity-step/final_project/helm
+    targetRevision: 1.0.0
   syncPolicy:
     automated: {}

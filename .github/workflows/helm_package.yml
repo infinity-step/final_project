@@ -40,7 +40,8 @@ jobs:
           
       - name: Change version in deploy app
         run: |
-          sed -i '/targetRevision:/s/master/${{ env.TAG }}/' ./deploy/argo-app/yt-downloader.yaml
+          echo "VER=$(grep "version:" ./helm/helm-repositories/yt_downloader/Chart.yaml | cut -d' ' -f2)" >> $GITHUB_ENV
+          sed -i '/targetRevision:/c\targetRevision: ${{ env.VER }}/' ./deploy/argo-app/yt-downloader.yaml
           
       - name: Commit new version
         run: |
