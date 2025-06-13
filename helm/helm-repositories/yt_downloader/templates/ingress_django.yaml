@@ -13,18 +13,14 @@ spec:
   ingressClassName: {{ . }}
   {{- end }}
   rules:
-    - host: {{ .Values.hosts.host2 }}
+    - host: {{ .Values.ingress.hosts.host2.url }}
       http:
         paths:
-          {{- range .paths }}
-          - path: {{ .path }}
-            {{- with .pathType }}
-            pathType: {{ . }}
-            {{- end }}
+          - path: {{ .Values.ingress.hosts.host2.path }}
+            pathType: {{ .Values.ingress.hosts.host2.pathType }}
             backend:
               service:
                 name: {{ $.Values.services.service1.name }}
                 port:
                   number: {{ $.Values.services.service1.ports.number }}
-          {{- end }}
 {{- end }}

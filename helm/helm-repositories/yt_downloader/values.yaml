@@ -7,8 +7,8 @@ appNames:
   name2: react
 
 image:
-  repository1: "ghcr.io/infinity-step/final_project/django:latest_tag"
-  repository2: "ghcr.io/infinity-step/final_project/react:latest_tag"
+  repository1: "ghcr.io/infinity-step/final_project/django:v1.0.1"
+  repository2: "ghcr.io/infinity-step/final_project/react:v1.0.1"
   
 volumeMounts:
   - name: django-storage
@@ -32,14 +32,14 @@ ingress:
     nginx.ingress.kubernetes.io/cors-allow-headers: "Authorization, Content-Type"
   className: "nginx"
   hosts:
-    - host1: yt-downloader.k8s-23.sa
-      paths:
-        - path: /
-          pathType: Prefix
-    - host2: yt-downloader.k8s-23.sa
-      paths:
-        - path: /api
-          pathType: Prefix
+    host1: 
+      url: yt-dev-downloader.k8s-23.sa
+      path: /
+      pathType: Prefix
+    host2: 
+      url: yt-dev-downloader.k8s-23.sa
+      path: /api
+      pathType: Prefix
 
 services:
   service1:
