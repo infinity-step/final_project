@@ -46,11 +46,10 @@ jobs:
           git config --global user.name "GitHub Actions"
           git config --global user.email "actions@github.com"
           git add --all
-          git commit -m "GitHub actions deploy Helm with app:${{ env.TAG }} "
-
-      - name: Push to dev branch
-        run: |
+          git commit -m "GitHub actions deploy Helm with app:${{ env.TAG }}"
           git push origin HEAD:refs/heads/dev
+        env:
+          GITHUB_TOKEN: ${{ secrets.PAT }}
           
       - name: Post a message in a channel
         uses: slackapi/slack-github-action@v2.0.0
