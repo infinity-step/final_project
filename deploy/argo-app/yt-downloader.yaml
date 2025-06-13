@@ -11,6 +11,6 @@ spec:
   source:
     chart: yt_downloader
     repoURL: https://github.com/infinity-step/final_project
-    targetRevision: master
+    targetRevision: v1.0.1
   syncPolicy:
     automated: {}
