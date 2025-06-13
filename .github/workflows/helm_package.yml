@@ -47,7 +47,7 @@ jobs:
           git config --global user.email "actions@github.com"
           git add --all
           git commit -m "GitHub actions deploy Helm with app:${{ env.TAG }}"
-          git push origin dev 
+          git push origin dev --verbose
           
       - name: Post a message in a channel
         uses: slackapi/slack-github-action@v2.0.0
