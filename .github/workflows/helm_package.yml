@@ -35,7 +35,7 @@ jobs:
           
       - name: Update repository
         run: |
-          helm repo index ./helm/helm-releases --url https://infinity-step.github.io/final_project/ --merge index.yaml .
+          helm repo index --url https://infinity-step.github.io/final_project/ --merge index.yaml ./helm/helm-releases
           
       - name: Change version in deploy app
         run: |
