@@ -43,11 +43,9 @@ jobs:
           
       - name: Commit new version
         run: |
-          git config --global user.name "GitHub Actions"
-          git config --global user.email "actions@github.com"
           git add --all
           git commit -m "GitHub actions deploy Helm with app:${{ env.TAG }}"
-          git push origin HEAD:refs/heads/dev
+          git push origin dev
         env:
           GITHUB_TOKEN: ${{ secrets.PAT }} 
           
