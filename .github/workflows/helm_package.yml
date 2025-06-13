@@ -49,6 +49,7 @@ jobs:
           git commit -m "GitHub actions deploy Helm with app:${{ env.TAG }}"
           git push origin dev
           
+          
       - name: Post a message in a channel
         uses: slackapi/slack-github-action@v2.0.0
         with:
