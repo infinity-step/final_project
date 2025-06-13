@@ -32,6 +32,7 @@ jobs:
           sed -i '/repository1:/s/ghcr.io\/infinity-step\/final_project\/django:latest_tag/ghcr.io\/infinity-step\/final_project\/django:${{ env.TAG }}/' ./helm/helm-repositories/yt_downloader/values.yaml
           sed -i '/appVersion:/s/Version/${{ env.TAG }}/' ./helm/helm-repositories/yt_downloader/Chart.yaml
           helm package ./helm/helm-repositories/yt_downloader
+          mkdir -p ./helm/helm-releases/
           mv yt_downloader-* ./helm/helm-releases/
           
       - name: Update repository
