@@ -11,6 +11,6 @@ spec:
   source:
     chart: yt_downloader
     repoURL: https://infinity-step.github.io/final_project/helm
-  targetRevision: 
+  targetRevision: v1.0.1
   syncPolicy:
     automated: {}

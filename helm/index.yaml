@@ -3,12 +3,12 @@ entries:
   yt_downloader:
   - apiVersion: v2
     appVersion: v1.0.1
-    created: "2025-06-14T00:12:20.770993656Z"
+    created: "2025-06-14T00:17:41.725640625Z"
     description: A Helm chart for Kubernetes
-    digest: fed9c4d3472d23645088e9dbf36b5ada22a4cdaa7831bd0e21beceef09b73e82
+    digest: 51f46c38d3743a756446b5f61f9e2212602c44fa02d412208a34d9e73042f83d
     name: yt_downloader
     type: application
     urls:
     - https://infinity-step.github.io/final_project/helm/helm-releases/yt_downloader-1.0.0.tgz
     version: 1.0.0
-generated: "2025-06-14T00:12:20.770376154Z"
+generated: "2025-06-14T00:17:41.725018914Z"
