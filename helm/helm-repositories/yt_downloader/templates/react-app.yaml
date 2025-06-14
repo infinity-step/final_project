@@ -17,6 +17,6 @@ spec:
         - name: github-secret
       containers:
         - name: {{ .Values.appNames.name2 }}
-          image: "{{ .Values.image.repository2 }}"
+          image: {{ .Values.image.repository2 }}
           ports:
             - containerPort: {{ .Values.containerPort }}
