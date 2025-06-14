@@ -38,9 +38,12 @@ jobs:
         run: |
           helm repo index ./helm --url https://infinity-step.github.io/final_project/helm
           
-      - name: Change version in deploy app
+      - name: Get version from chart
         run: |
           echo "VER=$(grep version: ./helm/helm-repositories/yt_downloader/Chart.yaml | cut -d' ' -f2)" >> $GITHUB_ENV
+          
+      - name: Change version in deploy app
+        run: |
           sed -i '/targetRevision:/c\  targetRevision: ${{ env.VER }}' ./deploy/argo-app/yt-downloader.yaml
           
       - name: Commit new version
