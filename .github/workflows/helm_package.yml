@@ -29,8 +29,8 @@ jobs:
       - name: Helm Package Yt-downloader
         run: |
           echo ${{ env.TAG }}
-          sed -i '/repository2:/c\  repository2: ghcr.io\/infinity-step\/final_project\/react:${{ env.TAG }}' ./helm/helm-repositories/yt_downloader/values.yaml
-          sed -i '/repository1:/c\  repository1: ghcr.io\/infinity-step\/final_project\/django:${{ env.TAG }}' ./helm/helm-repositories/yt_downloader/values.yaml
+          sed -i '/image2:/c\image2: ghcr.io\/infinity-step\/final_project\/react:${{ env.TAG }}' ./helm/helm-repositories/yt_downloader/values.yaml
+          sed -i '/image1:/c\image1: ghcr.io\/infinity-step\/final_project\/django:${{ env.TAG }}' ./helm/helm-repositories/yt_downloader/values.yaml
           sed -i '/appVersion:/c\appVersion: ${{ env.TAG }}' ./helm/helm-repositories/yt_downloader/Chart.yaml
           helm package ./helm/helm-repositories/yt_downloader --destination ./helm/helm-releases/
           

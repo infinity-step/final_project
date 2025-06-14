@@ -17,7 +17,7 @@ spec:
         - name: github-secret
       containers:
         - name: {{ .Values.appNames.name1 }}
-          image: {{ .Values.image.repository1 }}
+          image: {{ .Values.image1 }}
           envFrom:
             - secretRef:
                 name: env-secret
