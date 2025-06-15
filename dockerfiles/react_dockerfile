@@ -1,0 +1,17 @@
+FROM node:18-alpine
+
+WORKDIR /app
+
+COPY ../yt_downloader/front/yt_downloader/package.json ../yt_downloader/front/yt_downloader/package-lock.json ./
+RUN npm install
+
+COPY ../yt_downloader/front/yt_downloader .
+
+RUN npm run build
+
+# hadolint ignore=DL3000,DL3016,DL3059
+RUN npm install -g serve
+
+CMD ["serve", "-s", "build", "-l", "3000"]
+
+EXPOSE 3000

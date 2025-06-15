@@ -1,0 +1,70 @@
+name: package helm 
+
+on:
+  pull_request:
+    branches:
+      - master
+    
+jobs:
+  start_script:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        
+      - name: Fetch full history
+        run: git fetch --tags --force
+          
+      - name: Last tag
+        id: get_tag
+        run: echo "TAG=$(git describe --tags $(git rev-list --tags --max-count=1))" >> $GITHUB_ENV 
+        
+      - name: Install Helm
+        run: |
+          curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3
+          sudo chmod 700 get_helm.sh
+          ./get_helm.sh
+          rm get_helm.sh
+
+      - name: Helm Package Yt-downloader
+        run: |
+          echo ${{ env.TAG }}
+          sed -i '/image2:/c\image2: ghcr.io\/infinity-step\/final_project\/react:${{ env.TAG }}' ./helm/helm-repositories/yt_downloader/values.yaml
+          sed -i '/image1:/c\image1: ghcr.io\/infinity-step\/final_project\/django:${{ env.TAG }}' ./helm/helm-repositories/yt_downloader/values.yaml
+          sed -i '/appVersion:/c\appVersion: ${{ env.TAG }}' ./helm/helm-repositories/yt_downloader/Chart.yaml
+          helm package ./helm/helm-repositories/yt_downloader --destination ./helm/helm-releases/
+          
+      - name: Update repository
+        run: |
+          helm repo index ./helm --url https://infinity-step.github.io/final_project/helm
+          
+      - name: Get version from chart
+        run: |
+          echo "VER=$(grep version: ./helm/helm-repositories/yt_downloader/Chart.yaml | cut -d' ' -f2)" >> $GITHUB_ENV
+          
+      - name: Change version in deploy app
+        run: |
+          sed -i '/targetRevision:/c\    targetRevision: ${{ env.VER }}' ./deploy/argo-app/yt-downloader.yaml
+          
+      - name: Commit new version
+        run: |
+          git config --global user.name "GitHub Actions"
+          git config --global user.email "actions@github.com"
+          git add --all
+          git commit -m "GitHub actions deploy Helm with app:${{ env.TAG }}"
+          git push origin dev
+          
+          
+      - name: Post a message in a channel
+        uses: slackapi/slack-github-action@v2.0.0
+        with:
+          webhook: ${{ secrets.SLACK_WEBHOOK_URL }}
+          webhook-type: incoming-webhook
+          payload: |
+            text: "*GitHub Action build result*: ${{ job.status }}\n${{ github.repository || github.event.head_commit.url }}"
+            blocks:
+              - type: "section"
+                text:
+                  type: "mrkdwn"
+                  text: "GitHub Action Helm package yt_downloader result: ${{ job.status }}\n${{ github.repository || github.event.head_commit.url }}"
+        

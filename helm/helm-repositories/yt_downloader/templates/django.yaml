@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.appNames.name1 }}
+  namespace: {{ .Values.namespace }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app: {{ .Values.appNames.name1 }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.appNames.name1 }}
+    spec:
+      imagePullSecrets:
+        - name: github-secret
+      containers:
+        - name: {{ .Values.appNames.name1 }}
+          image: {{ .Values.image1 }}
+          envFrom:
+            - secretRef:
+                name: env-secret
+          {{- with .Values.volumeMounts }}
+          volumeMounts:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+      {{- with .Values.volumes }}
+      volumes:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}

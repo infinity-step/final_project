@@ -1,0 +1,53 @@
+replicaCount: 1
+
+namespace: yt_downloader
+
+appNames:
+  name1: django
+  name2: react
+
+image1: ghcr.io/infinity-step/final_project/django:v1.0.1
+image2: ghcr.io/infinity-step/final_project/react:v1.0.1
+  
+volumeMounts:
+  - name: django-storage
+    mountPath: "/app/media"
+    
+volumes:
+  - name: django-storage
+    persistentVolumeClaim:
+      claimName: django-pvc
+
+containerPort: 3000
+      
+storageClassName: nfs-client
+
+ingress:
+  enabled: true
+  annotations:
+    nginx.ingress.kubernetes.io/enable-cors: "true"
+    nginx.ingress.kubernetes.io/cors-allow-origin: "*"
+    nginx.ingress.kubernetes.io/cors-allow-methods: "GET, POST, OPTIONS"
+    nginx.ingress.kubernetes.io/cors-allow-headers: "Authorization, Content-Type"
+  className: "nginx"
+  hosts:
+    host1: 
+      url: yt-downloader.k8s-23.sa
+      path: /
+      pathType: Prefix
+    host2: 
+      url: yt-downloader.k8s-23.sa
+      path: /api
+      pathType: Prefix
+
+services:
+  service1:
+    name: django-service
+    protocol: TCP
+    ports:
+      number: 8000
+  service2: 
+    name: react-service
+    protocol: TCP
+    ports:
+      number: 3000

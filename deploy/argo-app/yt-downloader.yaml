@@ -1,16 +1,16 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: yt-downloader
+  name: yt-downloader-dev
   namespace: argocd
 spec:
   destination:
-    namespace: default
+    namespace: yt_downloader
     server: https://kubernetes.default.svc
   project: default
   source:
-    path: ./deploy/argo-app-manifest
-    repoURL: https://github.com/infinity-step/final_project
-    targetRevision: master
+    chart: yt_downloader
+    repoURL: https://infinity-step.github.io/final_project/helm
+    targetRevision: 1.0.0
   syncPolicy:
     automated: {}
