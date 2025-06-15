@@ -2,8 +2,8 @@ name: package helm
 
 on:
   push:
-    branches:
-    - dev
+    tags:
+      - 'v*'
     
 jobs:
   start_script:
